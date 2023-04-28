@@ -93,10 +93,12 @@
                 android:text="Overview: "
                 android:textSize="20sp" />
 
-            <ListView
+            <LinearLayout
+                android:id="@+id/creditLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="700dp"/>
+                android:orientation="vertical"
+                android:layout_marginTop="900dp"/>
 
 
         </FrameLayout>

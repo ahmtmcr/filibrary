@@ -44,6 +44,14 @@ public interface ApiInterface {
     );
 
 
+    @GET("/3/movie/{movie_id}/credits")
+    Call<MovieCreditResults> getMovieCredits(
+            @Path("movie_id") int filmId,
+            @Query("api_key") String apiKey,
+            @Query("language") String language
+    );
+
+
 
 
 }
