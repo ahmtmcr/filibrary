@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.kalmac.filibrary.ApiInterface;
 import com.kalmac.filibrary.DateFormatter;
 import com.kalmac.filibrary.MovieResults;
 import com.kalmac.filibrary.PicassoLoader;
@@ -35,17 +36,23 @@ public class HomeFragment extends Fragment {
     ImageButton ib;
     TextView tv;
     LinearLayout lineerLay;
+    LinearLayout lineerLayPopular;
     SwitchCompat trendSwitch;
 
+    View view;
+    LayoutInflater rInflater;
+    ViewGroup rContainer;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        rContainer = container;
+        rInflater = inflater;
+        view = rInflater.inflate(R.layout.fragment_home,  rContainer, false);
         tv = (TextView) view.findViewById(R.id.textView4);
         ib = (ImageButton) view.findViewById(R.id.button6);
-
         lineerLay = (LinearLayout) view.findViewById(R.id.lineerLay);
+        lineerLayPopular = (LinearLayout) view.findViewById(R.id.lineerLayPopular);
 
 
 
@@ -58,33 +65,39 @@ public class HomeFragment extends Fragment {
 //            }
 //        });
 
-
+        setDafaultViewForTrending();
+        setDefaultViewForPopular();
 
         trendSwitch = (SwitchCompat) view.findViewById(R.id.trendSwitch);
-
         trendSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b == true){
                     trendSwitch.setText("This Week");
+                    setWeeklyViewForTrending();
                 }
                 else{
                     trendSwitch.setText("Today");
+                    setDafaultViewForTrending();
                 }
             }
         });
 
+        return  view;
+    }
 
+    private void setDafaultViewForTrending(){
+
+        lineerLay.removeAllViews();
         RetrofitClient retrofitClient = new RetrofitClient();
-        Call<MovieResults> call = retrofitClient.apiInterface.getMovies(retrofitClient.API_KEY, retrofitClient.LANGUAGE, retrofitClient.QUERY, retrofitClient.PAGE, retrofitClient.IS_ADULT);
-
+        Call<MovieResults> call = retrofitClient.apiInterface.getDailyTrendingMovies(retrofitClient.API_KEY);
         call.enqueue(new Callback<MovieResults>() {
             @Override
             public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
                 MovieResults results = response.body();
                 List<MovieResults.ResultsDTO> listOfMovies = results.getResults();
                 for (int i=0; i< listOfMovies.size(); i++){
-                    View filmItem = inflater.inflate(R.layout.item_film, container, false);
+                    View filmItem = rInflater.inflate(R.layout.item_film,  rContainer, false);
 
                     ImageButton imB = filmItem.findViewById(R.id.filmPoster);
                     TextView filmT = filmItem.findViewById(R.id.filmT);
@@ -101,10 +114,6 @@ public class HomeFragment extends Fragment {
 
                 }
 
-                //
-//                MovieResults.ResultsDTO firstMovie = listOfMovies.get(0);
-//                tv.setText(firstMovie.getTitle());
-//                PicassoLoader.LoadImageToImageButton(ib, 300, 300);
             }
 
             @Override
@@ -112,7 +121,78 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        return  view;
+    }
+
+    private void setWeeklyViewForTrending(){
+        lineerLay.removeAllViews();
+        RetrofitClient retrofitClient = new RetrofitClient();
+        Call<MovieResults> call = retrofitClient.apiInterface.getWeeklyTrendingMovies(retrofitClient.API_KEY);
+        call.enqueue(new Callback<MovieResults>() {
+            @Override
+            public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
+                MovieResults results = response.body();
+                List<MovieResults.ResultsDTO> listOfMovies = results.getResults();
+                for (int i=0; i< listOfMovies.size(); i++){
+                    View filmItem = rInflater.inflate(R.layout.item_film,  rContainer, false);
+
+                    ImageButton imB = filmItem.findViewById(R.id.filmPoster);
+                    TextView filmT = filmItem.findViewById(R.id.filmT);
+                    TextView filmReleaseDate = filmItem.findViewById(R.id.filmReleaseDate);
+                    RatingBar rb = (RatingBar) filmItem.findViewById(R.id.ratingBar);
+                    TextView userScore = (TextView) filmItem.findViewById(R.id.userScore);
+
+                    PicassoLoader.LoadImageToImageButton(listOfMovies.get(i).getPosterPath(),imB, 300, 350);
+                    filmT.setText(listOfMovies.get(i).getTitle());
+                    filmReleaseDate.setText(DateFormatter.FormatDate(listOfMovies.get(i).getReleaseDate()));
+                    rb.setRating(listOfMovies.get(i).getVoteAverage().floatValue() / 2);
+                    userScore.setText("%" +  (float)(listOfMovies.get(i).getVoteAverage() * 10));
+                    lineerLay.addView(filmItem);
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MovieResults> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void setDefaultViewForPopular(){
+        lineerLayPopular.removeAllViews();
+        RetrofitClient retrofitClient = new RetrofitClient();
+        Call<MovieResults> call = retrofitClient.apiInterface.getPopularMovies(retrofitClient.API_KEY, retrofitClient.LANGUAGE, retrofitClient.PAGE);
+        call.enqueue(new Callback<MovieResults>() {
+            @Override
+            public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
+                MovieResults results = response.body();
+                List<MovieResults.ResultsDTO> listOfMovies = results.getResults();
+                for (int i=0; i< listOfMovies.size(); i++){
+                    View filmItem = rInflater.inflate(R.layout.item_film,  rContainer, false);
+
+                    ImageButton imB = filmItem.findViewById(R.id.filmPoster);
+                    TextView filmT = filmItem.findViewById(R.id.filmT);
+                    TextView filmReleaseDate = filmItem.findViewById(R.id.filmReleaseDate);
+                    RatingBar rb = (RatingBar) filmItem.findViewById(R.id.ratingBar);
+                    TextView userScore = (TextView) filmItem.findViewById(R.id.userScore);
+
+                    PicassoLoader.LoadImageToImageButton(listOfMovies.get(i).getPosterPath(),imB, 300, 350);
+                    filmT.setText(listOfMovies.get(i).getTitle());
+                    filmReleaseDate.setText(DateFormatter.FormatDate(listOfMovies.get(i).getReleaseDate()));
+                    rb.setRating(listOfMovies.get(i).getVoteAverage().floatValue() / 2);
+                    userScore.setText("%" +  (float)(listOfMovies.get(i).getVoteAverage() * 10));
+                    lineerLayPopular.addView(filmItem);
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MovieResults> call, Throwable t) {
+
+            }
+        });
     }
 
 }
