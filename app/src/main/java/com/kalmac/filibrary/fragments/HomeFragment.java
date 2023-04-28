@@ -1,10 +1,13 @@
 package com.kalmac.filibrary.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,8 @@ import android.widget.TextView;
 
 import com.kalmac.filibrary.ApiInterface;
 import com.kalmac.filibrary.DateFormatter;
+import com.kalmac.filibrary.FilmActivity;
+import com.kalmac.filibrary.MainActivity;
 import com.kalmac.filibrary.MovieResults;
 import com.kalmac.filibrary.PicassoLoader;
 import com.kalmac.filibrary.R;
@@ -38,6 +43,8 @@ public class HomeFragment extends Fragment {
     LinearLayout lineerLay;
     LinearLayout lineerLayPopular;
     SwitchCompat trendSwitch;
+    ProgressBar progressFilms;
+    ProgressBar progressBarFilm2;
 
     View view;
     LayoutInflater rInflater;
@@ -49,9 +56,9 @@ public class HomeFragment extends Fragment {
         rContainer = container;
         rInflater = inflater;
         view = rInflater.inflate(R.layout.fragment_home,  rContainer, false);
-        tv = (TextView) view.findViewById(R.id.textView4);
-        ib = (ImageButton) view.findViewById(R.id.button6);
         lineerLay = (LinearLayout) view.findViewById(R.id.lineerLay);
+        progressFilms = (ProgressBar) view.findViewById(R.id.progressFilms);
+        progressBarFilm2 = (ProgressBar) view.findViewById(R.id.progressFilms1);
         lineerLayPopular = (LinearLayout) view.findViewById(R.id.lineerLayPopular);
 
 
@@ -87,15 +94,19 @@ public class HomeFragment extends Fragment {
     }
 
     private void setDafaultViewForTrending(){
-
+        progressFilms.setVisibility(View.VISIBLE);
+        progressFilms.setProgress(0);
         lineerLay.removeAllViews();
         RetrofitClient retrofitClient = new RetrofitClient();
         Call<MovieResults> call = retrofitClient.apiInterface.getDailyTrendingMovies(retrofitClient.API_KEY);
         call.enqueue(new Callback<MovieResults>() {
             @Override
             public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
+                progressFilms.setProgress(100);
+                progressFilms.setVisibility(View.GONE);
                 MovieResults results = response.body();
                 List<MovieResults.ResultsDTO> listOfMovies = results.getResults();
+
                 for (int i=0; i< listOfMovies.size(); i++){
                     View filmItem = rInflater.inflate(R.layout.item_film,  rContainer, false);
 
@@ -104,12 +115,24 @@ public class HomeFragment extends Fragment {
                     TextView filmReleaseDate = filmItem.findViewById(R.id.filmReleaseDate);
                     RatingBar rb = (RatingBar) filmItem.findViewById(R.id.ratingBar);
                     TextView userScore = (TextView) filmItem.findViewById(R.id.userScore);
-
                     PicassoLoader.LoadImageToImageButton(listOfMovies.get(i).getPosterPath(),imB, 300, 350);
                     filmT.setText(listOfMovies.get(i).getTitle());
                     filmReleaseDate.setText(DateFormatter.FormatDate(listOfMovies.get(i).getReleaseDate()));
                     rb.setRating(listOfMovies.get(i).getVoteAverage().floatValue() / 2);
                     userScore.setText("%" +  (float)(listOfMovies.get(i).getVoteAverage() * 10));
+                    TextView filmID = (TextView) filmItem.findViewById(R.id.filmId);
+                    filmID.setText(listOfMovies.get(i).getId().toString());
+
+                    imB.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Integer id = Integer.parseInt(filmID.getText().toString());
+                            Intent i = new Intent(getActivity(), FilmActivity.class);
+                            i.putExtra("filmdID", id);
+                            startActivity(i);
+                        }
+                    });
+
                     lineerLay.addView(filmItem);
 
                 }
@@ -124,12 +147,16 @@ public class HomeFragment extends Fragment {
     }
 
     private void setWeeklyViewForTrending(){
+        progressFilms.setVisibility(View.VISIBLE);
+        progressFilms.setProgress(0);
         lineerLay.removeAllViews();
         RetrofitClient retrofitClient = new RetrofitClient();
         Call<MovieResults> call = retrofitClient.apiInterface.getWeeklyTrendingMovies(retrofitClient.API_KEY);
         call.enqueue(new Callback<MovieResults>() {
             @Override
             public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
+                progressFilms.setProgress(100);
+                progressFilms.setVisibility(View.GONE);
                 MovieResults results = response.body();
                 List<MovieResults.ResultsDTO> listOfMovies = results.getResults();
                 for (int i=0; i< listOfMovies.size(); i++){
@@ -160,12 +187,16 @@ public class HomeFragment extends Fragment {
     }
 
     private void setDefaultViewForPopular(){
+        progressBarFilm2.setVisibility(View.VISIBLE);
+        progressBarFilm2.setProgress(0);
         lineerLayPopular.removeAllViews();
         RetrofitClient retrofitClient = new RetrofitClient();
         Call<MovieResults> call = retrofitClient.apiInterface.getPopularMovies(retrofitClient.API_KEY, retrofitClient.LANGUAGE, retrofitClient.PAGE);
         call.enqueue(new Callback<MovieResults>() {
             @Override
             public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
+                progressBarFilm2.setProgress(100);
+                progressBarFilm2.setVisibility(View.GONE);
                 MovieResults results = response.body();
                 List<MovieResults.ResultsDTO> listOfMovies = results.getResults();
                 for (int i=0; i< listOfMovies.size(); i++){

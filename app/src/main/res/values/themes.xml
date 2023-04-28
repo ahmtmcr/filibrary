@@ -12,7 +12,17 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="actionBarTabBarStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Menu</item>
+        <item name="actionBarTabBarStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Menu
+        </item>
     </style>
+
+    <style name="Theme.Filibrary.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Filibrary.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Filibrary.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

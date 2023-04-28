@@ -49,67 +49,6 @@ public class MainActivity extends AppCompatActivity {
         registerEventHandlers();
 
 
-
-//        ArrayList<Film> arrayOfFilms = new ArrayList<Film>();
-//        CustomAdapter adapter = new CustomAdapter(this, arrayOfFilms);
-//        ListView filmList = (ListView) findViewById(R.id.filmList);
-//        filmList.setAdapter(adapter);
-//
-//
-//
-
-//
-
-//
-
-//
-//        call.enqueue(new Callback<MovieResults>() {
-//            @Override
-//            public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
-//                MovieResults results = response.body();
-//                List<MovieResults.ResultsDTO> listOfMovies = results.getResults();
-//                //MovieResults.ResultsDTO firstMovie = listOfMovies.get(0);
-//
-//                //filmName.setText(firstMovie.getTitle());
-//
-//
-//
-//                //get names
-//                //List<String> filmNames = null;
-//                //for (int i=0; i<listOfMovies.size(); i++){
-//                //    MovieResults.ResultsDTO Movie = listOfMovies.get(i);
-//                //    filmNames.add(Movie.getTitle());
-//               // }
-//                //get release year
-//                //List<String> filmReleaseYears = null;
-//                //for (int i=0; i<listOfMovies.size(); i++){
-//                //    MovieResults.ResultsDTO Movie = listOfMovies.get(i);
-//                //    filmReleaseYears.add(Movie.getReleaseDate());
-//               // }
-//                //get posters
-//                //List<Image> filmPosters = null;
-//                //for (int i=0; i<listOfMovies.size(); i++){
-//                 //   MovieResults.ResultsDTO Movie = listOfMovies.get(i);
-//                //    filmPosters.add(Picasso.get().load(IMAGE_URL + Movie.getPosterPath()).into(Image);)
-//                //}
-//
-//                //add films to list
-//                for (int i=0; i<listOfMovies.size(); i++){
-//                    MovieResults.ResultsDTO Movie = listOfMovies.get(i);
-//                    Film newFilm = new Film(Movie.getTitle(), Movie.getReleaseDate());
-//                    adapter.add(newFilm);
-//                }
-//
-//            }
-//
-//
-//
-//            @Override
-//            public void onFailure(Call<MovieResults> call, Throwable t) {
-//
-//            }
-//        });
-
     }
 
     private void initComponents(){

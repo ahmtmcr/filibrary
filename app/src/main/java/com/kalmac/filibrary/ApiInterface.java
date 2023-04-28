@@ -3,6 +3,7 @@ package com.kalmac.filibrary;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
@@ -33,6 +34,16 @@ public interface ApiInterface {
             @Query("language") String language,
             @Query("page") int page
     );
+
+
+    @GET("/3/movie/{movie_id}")
+    Call<MovieDetailResults> getMovieDetails(
+            @Path("movie_id") int filmId,
+            @Query("api_key") String apiKey,
+            @Query("language") String language
+    );
+
+
 
 
 }

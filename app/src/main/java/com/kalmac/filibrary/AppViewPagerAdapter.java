@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.kalmac.filibrary.fragments.FilmFragment;
 import com.kalmac.filibrary.fragments.HomeFragment;
 import com.kalmac.filibrary.fragments.LibraryFragment;
 import com.kalmac.filibrary.fragments.SearchFragment;
@@ -24,7 +25,7 @@ public class AppViewPagerAdapter extends FragmentStateAdapter {
                 return new LibraryFragment();
             case 2:
                 return new SearchFragment();
-            default:
+                default:
                 return new HomeFragment();
         }
     }
