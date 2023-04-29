@@ -176,6 +176,19 @@ public class HomeFragment extends Fragment {
                     filmReleaseDate.setText(DateFormatter.FormatDate(listOfMovies.get(i).getReleaseDate()));
                     rb.setRating(listOfMovies.get(i).getVoteAverage().floatValue() / 2);
                     userScore.setText("%" +  (float)(listOfMovies.get(i).getVoteAverage() * 10));
+                    TextView filmID = (TextView) filmItem.findViewById(R.id.filmId);
+                    filmID.setText(listOfMovies.get(i).getId().toString());
+
+                    imB.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Integer id = Integer.parseInt(filmID.getText().toString());
+                            Intent i = new Intent(getActivity(), FilmActivity.class);
+                            i.putExtra("filmdID", id);
+                            startActivity(i);
+                        }
+                    });
+
                     lineerLay.addView(filmItem);
 
                 }
@@ -216,6 +229,19 @@ public class HomeFragment extends Fragment {
                     filmReleaseDate.setText(DateFormatter.FormatDate(listOfMovies.get(i).getReleaseDate()));
                     rb.setRating(listOfMovies.get(i).getVoteAverage().floatValue() / 2);
                     userScore.setText("%" +  (float)(listOfMovies.get(i).getVoteAverage() * 10));
+                    TextView filmID = (TextView) filmItem.findViewById(R.id.filmId);
+                    filmID.setText(listOfMovies.get(i).getId().toString());
+
+                    imB.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Integer id = Integer.parseInt(filmID.getText().toString());
+                            Intent i = new Intent(getActivity(), FilmActivity.class);
+                            i.putExtra("filmdID", id);
+                            startActivity(i);
+                        }
+                    });
+
                     lineerLayPopular.addView(filmItem);
 
                 }

@@ -6,9 +6,29 @@
     android:id="@+id/fragmentSearch"
     tools:context=".fragments.SearchFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/search" />
 
+    <ScrollView
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_marginStart="25dp">
+
+        <LinearLayout
+            android:id="@+id/searchFilmLinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="400dp"
+        android:layout_marginStart="3dp"
+        android:queryHint="Enter a film name..."
+        android:iconifiedByDefault="false"
+        android:layout_marginTop="100dp"
+        android:background="@android:color/darker_gray"
+        android:layout_height="40dp" >
+
+    </SearchView>
 </FrameLayout>

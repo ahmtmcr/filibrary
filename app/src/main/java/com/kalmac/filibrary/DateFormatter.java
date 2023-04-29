@@ -7,6 +7,10 @@ import java.util.Date;
 public class DateFormatter {
     public static String FormatDate(String date){
 
+        if (date.equals("")) {
+            return  "Unknown";
+        }
+
         Date newDate = null;
         try {
             newDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
@@ -14,5 +18,6 @@ public class DateFormatter {
             throw new RuntimeException(e);
         }
         return new SimpleDateFormat("MMM dd, yyyy").format(newDate);
+
     }
 }

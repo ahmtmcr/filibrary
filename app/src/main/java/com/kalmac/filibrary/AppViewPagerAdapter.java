@@ -18,15 +18,19 @@ public class AppViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
+
+        HomeFragment homeFragment = new HomeFragment();
+        LibraryFragment libraryFragment = new LibraryFragment();
+        SearchFragment searchFragment = new SearchFragment();
         switch (position){
             case 0:
-                return new HomeFragment();
+                return homeFragment;
             case 1:
-                return new LibraryFragment();
+                return libraryFragment;
             case 2:
-                return new SearchFragment();
+                return searchFragment;
                 default:
-                return new HomeFragment();
+                return homeFragment;
         }
     }
 
