@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="520dp"
-                android:text="Overview: "
+                android:text="Runtime: "
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -93,12 +93,20 @@
                 android:text="Overview: "
                 android:textSize="20sp" />
 
+            <TextView
+                android:id="@+id/filmCreditTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="880dp"
+                android:text="Credits: "
+                android:textSize="30sp" />
             <LinearLayout
                 android:id="@+id/creditLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="900dp"/>
+                android:layout_marginTop="920dp"/>
 
 
         </FrameLayout>

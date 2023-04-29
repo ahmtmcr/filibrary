@@ -100,7 +100,7 @@ public class FilmActivity extends AppCompatActivity {
                         TextView profileName = (TextView) v.findViewById(R.id.profileName);
 
                         PicassoLoader.LoadImageToImageView(castResults.get(i).getProfilePath(), profileP, 30, 50);
-                        profileName.setText(castResults.get(i).getName());
+                        profileName.setText(castResults.get(i).getName() + " as " + castResults.get(i).getCharacter());
 
                         creditLayout.addView(v);
                     }

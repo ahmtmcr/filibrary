@@ -15,6 +15,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -42,7 +44,8 @@ public class HomeFragment extends Fragment {
     TextView tv;
     LinearLayout lineerLay;
     LinearLayout lineerLayPopular;
-    SwitchCompat trendSwitch;
+    RadioGroup trendSwitch;
+//    RadioButton trendButton;
     ProgressBar progressFilms;
     ProgressBar progressBarFilm2;
 
@@ -75,18 +78,18 @@ public class HomeFragment extends Fragment {
         setDafaultViewForTrending();
         setDefaultViewForPopular();
 
-        trendSwitch = (SwitchCompat) view.findViewById(R.id.trendSwitch);
-        trendSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        trendSwitch = (RadioGroup) view.findViewById(R.id.toggle);
+//        trendButton = (RadioButton) view.findViewById(R.id.today);
+//        trendButton.setChecked(true);
+        trendSwitch.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b == true){
-                    trendSwitch.setText("This Week");
-                    setWeeklyViewForTrending();
-                }
-                else{
-                    trendSwitch.setText("Today");
-                    setDafaultViewForTrending();
-                }
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+              if (i == R.id.today){
+                  setDafaultViewForTrending();
+              }
+              else if (i == R.id.week){
+                  setWeeklyViewForTrending();
+              }
             }
         });
 
