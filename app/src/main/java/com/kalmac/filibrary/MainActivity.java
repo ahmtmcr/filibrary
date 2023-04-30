@@ -3,13 +3,16 @@ package com.kalmac.filibrary;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.kalmac.filibrary.fragments.LibraryFragment;
+import com.kalmac.filibrary.fragments.SearchFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -37,13 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
     AppViewPagerAdapter appViewPagerAdapter;
 
-//    public static String BASE_URL = "https://api.themoviedb.org";
-//    public static String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-//    public static int PAGE = 1;
-//    public static String API_KEY = "2ed3818008defb09e1fc8aec79baaf00";
-//    public static String LANGUAGE = "en-US";
-//    public static boolean ADULT = false;
-//    public static String QUERY = "Avengers";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
         initComponents();
         registerEventHandlers();
-
-//        //denme
-//        LibraryFragment frag = (LibraryFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentLibrary);
-//        frag.dene();
-
-
-
     }
 
     private void initComponents(){

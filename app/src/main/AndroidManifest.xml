@@ -14,10 +14,10 @@
         android:theme="@style/Theme.Filibrary"
         tools:targetApi="31">
         <activity
-            android:name=".FilmActivity"
-            android:exported="true" />
+            android:name=".LoginActivity"
+            android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginAndRegisterActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -26,6 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".FilmActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

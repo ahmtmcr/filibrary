@@ -11,6 +11,9 @@ import com.kalmac.filibrary.fragments.LibraryFragment;
 import com.kalmac.filibrary.fragments.SearchFragment;
 
 public class AppViewPagerAdapter extends FragmentStateAdapter {
+
+
+
     public AppViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
@@ -18,19 +21,15 @@ public class AppViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-
-        HomeFragment homeFragment = new HomeFragment();
-        LibraryFragment libraryFragment = new LibraryFragment();
-        SearchFragment searchFragment = new SearchFragment();
         switch (position){
             case 0:
-                return homeFragment;
+                return  new HomeFragment();
             case 1:
-                return libraryFragment;
+                return new LibraryFragment();
             case 2:
-                return searchFragment;
+                return new SearchFragment();
                 default:
-                return homeFragment;
+                return new HomeFragment();
         }
     }
 
