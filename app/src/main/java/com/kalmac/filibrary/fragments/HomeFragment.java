@@ -183,10 +183,10 @@ public class HomeFragment extends Fragment {
                     imB.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Integer id = Integer.parseInt(filmID.getText().toString());
-                            Intent i = new Intent(getActivity(), FilmActivity.class);
-                            i.putExtra("filmdID", id);
-                            startActivity(i);
+                            Uri uri = Uri.parse("http://www.filab-filmapp.com/" + filmID.getText().toString());
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            intent.putExtra("filmdID", filmID.getText().toString());
+                            startActivity(intent);
                         }
                     });
 
@@ -236,10 +236,10 @@ public class HomeFragment extends Fragment {
                     imB.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Integer id = Integer.parseInt(filmID.getText().toString());
-                            Intent i = new Intent(getActivity(), FilmActivity.class);
-                            i.putExtra("filmdID", id);
-                            startActivity(i);
+                            Uri uri = Uri.parse("http://www.filab-filmapp.com/" + filmID.getText().toString());
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            intent.putExtra("filmdID", filmID.getText().toString());
+                            startActivity(intent);
                         }
                     });
 

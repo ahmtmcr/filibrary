@@ -1,6 +1,7 @@
 package com.kalmac.filibrary.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -130,10 +131,10 @@ public class LibraryFragment extends Fragment {
                             imB.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Integer id = Integer.parseInt(filmID.getText().toString());
-                                    Intent i = new Intent(getActivity(), FilmActivity.class);
-                                    i.putExtra("filmdID", id);
-                                    startActivity(i);
+                                    Uri uri = Uri.parse("http://www.filab-filmapp.com/" + filmID.getText().toString());
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                    intent.putExtra("filmdID", filmID.getText().toString());
+                                    startActivity(intent);
                                 }
                             });
                             libraryLinear.addView(filmItem);

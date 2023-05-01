@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.kalmac.filibrary.fragments.LibraryFragment;
 import com.kalmac.filibrary.fragments.SearchFragment;
 import com.squareup.picasso.Picasso;
@@ -41,11 +42,16 @@ public class MainActivity extends AppCompatActivity {
 
     AppViewPagerAdapter appViewPagerAdapter;
 
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() == null){
+            setContentView(R.layout.activity_login_register);
+        }
 
         initComponents();
         registerEventHandlers();
