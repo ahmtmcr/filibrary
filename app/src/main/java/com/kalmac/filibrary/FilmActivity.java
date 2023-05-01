@@ -7,12 +7,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.SortedList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,6 +40,7 @@ import com.kalmac.filibrary.fragments.LibraryFragment;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,7 +54,9 @@ import retrofit2.Response;
 
 public class FilmActivity extends AppCompatActivity {
 
-
+    String filmIDString;
+    ImageButton goBackToMain;
+    ImageButton shareActivityButton;
     ToggleButton favoriteButton;
     ImageView filmPoster;
     TextView filmT;
@@ -68,99 +74,95 @@ public class FilmActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film);
 
-        Bundle extras = getIntent().getExtras();
 
+        handleIntent(getIntent());
+
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            filmIDString = extras.getString("filmdID");
+        }
+
+
+        initComponents();
+        registerEventHandlers();
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null){
             setContentView(R.layout.activity_login_register);
         }
-
         FDb = FirebaseFirestore.getInstance();
         CollectionReference users = FDb.collection("users");
-
         DocumentReference documentReference = FDb.collection("users").document(currentUser.getUid());
 
-        documentReference.update("liked_film_ids", FieldValue.arrayUnion(extras.getInt("filmdID")));
-
-        //washingtonRef.update("regions", FieldValue.arrayRemove("east_coast"));
-
-
-//        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        Log.d("fire", "DocumentSnapshot data: " + document.getData());
-//                        Log.d("fire", document.get("born").toString());
-//
-//
-//                    } else {
-//                        Log.d("fire", "No such document");
-//                    }
-//                } else {
-//                    Log.d("fire", "get failed with ", task.getException());
-//                }
-//
-//            }
-//        });
-
-
-
-
-//        FDb.collection("users")
-//                        .add(user)
-//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                Log.d("firestore", "basarali");
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.d("firestore", "failed");
-//                            }
-//                        });
-
-        initComponents();
-        if(extras != null){
-           int id = extras.getInt("filmdID");
-           setFilm(id);
-        }
-
-
-
-
-            favoriteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!favoriteButton.isChecked()){
-                        //zaten favori
-                        //favorilerden sil
-                        favoriteButton.setBackgroundResource(R.drawable.hearth_icon);
-                        Toast.makeText(getApplicationContext(), "Removed From the Library", Toast.LENGTH_LONG).show();
-
-
-
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    DocumentSnapshot ds = task.getResult();;
+                    System.out.println(ds.get("liked_film_ids"));
+                    List<Long> filmLongList = (List<Long>) ds.get("liked_film_ids");
+                    String b = new String();
+                    if(extras != null){
+                        b = extras.getString("filmdID");
                     }
-                    else {
-                        //favorilere ekle
+                    List<String> filmIdsStringList = new ArrayList<>();
+
+
+                    for (int i=0; i<filmLongList.size(); i++){
+                        filmIdsStringList.add(filmLongList.get(i).toString());
+                    }
+                    if (filmIdsStringList.contains(b)){
                         favoriteButton.setBackgroundResource(R.drawable.hearth_icon_filled);
-                        Toast.makeText(getApplicationContext(), "Added To Library", Toast.LENGTH_LONG).show();
-
-
-//
-
+                        favoriteButton.setChecked(true);
+                    } else{
+                        favoriteButton.setBackgroundResource(R.drawable.hearth_icon);
                     }
                 }
-            });
+            }
+        });
+
+        if(extras != null){
+           int id = Integer.parseInt(extras.getString("filmdID"));
+           setFilm(id);
+        }
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!favoriteButton.isChecked()){
+                    //zaten favori
+                    //favorilerden sil
+                    favoriteButton.setBackgroundResource(R.drawable.hearth_icon);
+                    Toast.makeText(getApplicationContext(), "Removed From the Library", Toast.LENGTH_LONG).show();
+                    documentReference.update("liked_film_ids", FieldValue.arrayRemove(extras.getInt("filmdID")));
+                }
+                else {
+                    //favorilere ekle
+                    favoriteButton.setBackgroundResource(R.drawable.hearth_icon_filled);
+                    documentReference.update("liked_film_ids", FieldValue.arrayUnion(extras.getInt("filmdID")));
+                    Toast.makeText(getApplicationContext(), "Added To Library", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
     }
 
+    private void registerEventHandlers(){
+        goBackToMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goBackToMainActivity();
+            }
+        });
 
+        shareActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareFilmActivity(filmIDString);
+            }
+        });
+    }
     private void initComponents(){
         filmPoster = findViewById(R.id.filmPoster);
         filmT = findViewById(R.id.filmT);
@@ -171,6 +173,8 @@ public class FilmActivity extends AppCompatActivity {
         filmRuntime = findViewById(R.id.filmRuntime);
         creditLayout = findViewById(R.id.creditLayout);
         favoriteButton = findViewById(R.id.favoriteButton);
+        goBackToMain = findViewById(R.id.backToMainActivityButton);
+        shareActivityButton = findViewById(R.id.shareFilmButton);
     }
     private void setFilm(int filmID){
         RetrofitClient retrofitClient = new RetrofitClient();
@@ -231,5 +235,33 @@ public class FilmActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void goBackToMainActivity(){
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
+    private void shareFilmActivity(String filmID){
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "http://www.filab-filmapp.com/" + filmID);
+        sendIntent.setType("text/plain");
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareIntent);
+    }
+
+    private void handleIntent(Intent intent){
+        String appLinkAction = intent.getAction();
+        Uri appLinkData = intent.getData();
+        if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null){
+            String filmID = appLinkData.getLastPathSegment();
+            setFilm(Integer.parseInt(filmID));
+        }
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
     }
 }

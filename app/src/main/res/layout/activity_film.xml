@@ -29,6 +29,23 @@
                 android:layout_alignParentTop="true"
                 />
 
+                <ImageButton
+                    android:id="@+id/backToMainActivityButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="380dp"
+                    android:src="@android:drawable/ic_delete"
+                    android:background="@android:color/transparent"/>
+
+                <ImageButton
+                    android:id="@+id/shareFilmButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="0dp"
+                    android:background="@android:color/transparent"
+                    android:src="@android:drawable/ic_menu_share"
+                    app:tint="@android:color/holo_green_dark"/>
+
             <ImageView
                 android:id="@+id/filmPoster"
                 android:layout_width="match_parent"
