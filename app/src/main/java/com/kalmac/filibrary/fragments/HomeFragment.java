@@ -40,13 +40,9 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
 
 
-
-    ImageButton ib;
-    TextView tv;
     LinearLayout lineerLay;
     LinearLayout lineerLayPopular;
     RadioGroup trendSwitch;
-//    RadioButton trendButton;
     ProgressBar progressFilms;
     ProgressBar progressBarFilm2;
 
@@ -60,39 +56,12 @@ public class HomeFragment extends Fragment {
         rContainer = container;
         rInflater = inflater;
         view = rInflater.inflate(R.layout.fragment_home,  rContainer, false);
-        lineerLay = (LinearLayout) view.findViewById(R.id.lineerLay);
-        progressFilms = (ProgressBar) view.findViewById(R.id.progressFilms);
-        progressBarFilm2 = (ProgressBar) view.findViewById(R.id.progressFilms1);
-        lineerLayPopular = (LinearLayout) view.findViewById(R.id.lineerLayPopular);
 
-
-
-        //        btn = (Button) view.findViewById(R.id.button3);
-//        textView = (TextView) view.findViewById(R.id.homeText);
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                textView.setText("RETARD");
-//            }
-//        });
+        initComponents();
+        registerEventHandlers();
 
         setDafaultViewForTrending();
         setDefaultViewForPopular();
-
-        trendSwitch = (RadioGroup) view.findViewById(R.id.toggle);
-//        trendButton = (RadioButton) view.findViewById(R.id.today);
-//        trendButton.setChecked(true);
-        trendSwitch.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-              if (i == R.id.today){
-                  setDafaultViewForTrending();
-              }
-              else if (i == R.id.week){
-                  setWeeklyViewForTrending();
-              }
-            }
-        });
 
         return  view;
     }
@@ -132,7 +101,6 @@ public class HomeFragment extends Fragment {
                         public void onClick(View view) {
                             Uri uri = Uri.parse("http://www.filab-filmapp.com/" + filmID.getText().toString());
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                            intent.putExtra("filmdID", filmID.getText().toString());
                             startActivity(intent);
                         }
                     });
@@ -149,7 +117,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
     private void setWeeklyViewForTrending(){
         progressFilms.setVisibility(View.VISIBLE);
         progressFilms.setProgress(0);
@@ -185,7 +152,6 @@ public class HomeFragment extends Fragment {
                         public void onClick(View view) {
                             Uri uri = Uri.parse("http://www.filab-filmapp.com/" + filmID.getText().toString());
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                            intent.putExtra("filmdID", filmID.getText().toString());
                             startActivity(intent);
                         }
                     });
@@ -202,7 +168,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
     private void setDefaultViewForPopular(){
         progressBarFilm2.setVisibility(View.VISIBLE);
         progressBarFilm2.setProgress(0);
@@ -238,7 +203,6 @@ public class HomeFragment extends Fragment {
                         public void onClick(View view) {
                             Uri uri = Uri.parse("http://www.filab-filmapp.com/" + filmID.getText().toString());
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                            intent.putExtra("filmdID", filmID.getText().toString());
                             startActivity(intent);
                         }
                     });
@@ -252,6 +216,26 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<MovieResults> call, Throwable t) {
 
+            }
+        });
+    }
+    private void initComponents(){
+        lineerLay = (LinearLayout) view.findViewById(R.id.lineerLay);
+        progressFilms = (ProgressBar) view.findViewById(R.id.progressFilms);
+        progressBarFilm2 = (ProgressBar) view.findViewById(R.id.progressFilms1);
+        lineerLayPopular = (LinearLayout) view.findViewById(R.id.lineerLayPopular);
+        trendSwitch = (RadioGroup) view.findViewById(R.id.toggle);
+    }
+    private void registerEventHandlers(){
+        trendSwitch.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if (i == R.id.today){
+                    setDafaultViewForTrending();
+                }
+                else if (i == R.id.week){
+                    setWeeklyViewForTrending();
+                }
             }
         });
     }

@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:button="@null"
                 android:gravity="center"
-                android:text="Today"
+                android:text="@string/today"
                 android:textColor="@color/white" />
 
             <RadioButton
@@ -50,7 +50,7 @@
                 android:background="@drawable/toggle_widget_background"
                 android:button="@null"
                 android:gravity="center"
-                android:text="Weekly"
+                android:text="@string/weekly"
                 android:textColor="@color/white" />
         </RadioGroup>
 

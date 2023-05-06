@@ -11,7 +11,7 @@
         android:layout_width="120dp"
         android:layout_height="150dp"
         android:src="@android:drawable/arrow_down_float"
-        android:text="Button1"/>
+        android:text="@string/button1_"/>
 
     <LinearLayout
         android:layout_width="350dp"
@@ -22,7 +22,7 @@
         android:layout_width="1dp"
         android:layout_height="1dp"
         android:textAlignment="center"
-        android:text="filmId" />
+        android:text="@string/filmid_" />
 
     <TextView
         android:id="@+id/filmT"
@@ -30,14 +30,14 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:layout_marginTop="10dp"
-        android:text="FilmName" />
+        android:text="@string/filmname_s" />
 
     <TextView
         android:id="@+id/filmReleaseDate"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="FilmReleaseDate"
+        android:text="@string/filmruntime_s"
         android:textAlignment="center" />
 
     <RatingBar
@@ -55,7 +55,7 @@
         android:layout_width="120dp"
         android:textAlignment="center"
         android:layout_height="wrap_content"
-        android:text="User Score" />
+        android:text="@string/user_score" />
     </LinearLayout>
 
 </LinearLayout>

@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
@@ -12,7 +12,7 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/appName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
@@ -28,7 +28,7 @@
     <EditText
         android:id="@+id/mailLogin"
         android:layout_width="0dp"
-        android:text="macar@test.com"
+        android:text="@string/macar_test_com"
         android:layout_height="48dp"
         android:layout_marginTop="250dp"
         android:autofillHints="@string/prompt_email"
@@ -42,7 +42,7 @@
     <EditText
         android:id="@+id/passwordLogin"
         android:layout_width="0dp"
-        android:text="12345678"
+        android:text="@string/_passwordTest"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:autofillHints="@string/prompt_password"
@@ -55,15 +55,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mailLogin" />
 
+    <TextView
+        android:id="@+id/buttonGoToRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dont_have_an_account_click_here_to_register"
+        android:textColor="@android:color/holo_blue_dark"
+        android:clickable="true"
+        android:layout_marginTop="360dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <Button
         android:id="@+id/signInB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="48dp"
         android:layout_marginBottom="100dp"
         android:enabled="true"
-        android:text="Sign In"
+        android:text="@string/sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

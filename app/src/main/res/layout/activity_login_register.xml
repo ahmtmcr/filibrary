@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
@@ -10,32 +10,30 @@
     android:paddingRight="16dp"
     android:paddingBottom="16dp">
 
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="144dp"
         android:text="@string/app_name"
-        android:textSize="30sp"
-        android:textColor="@android:color/holo_purple"
         android:textAllCaps="true"
+        android:textColor="@android:color/holo_purple"
+        android:textSize="30sp"
         android:textStyle="bold"
-        android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginTop="190dp"
         android:autofillHints="@string/prompt_email"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
     <EditText
         android:id="@+id/username"
@@ -75,7 +73,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/password"/>
 
     <TextView
         android:id="@+id/buttonGoToLogin"
@@ -84,24 +82,21 @@
         android:text="@string/already_have_an_account_click_here_to_sign_in"
         android:textColor="@android:color/holo_blue_dark"
         android:clickable="true"
-        android:layout_marginTop="420dp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/confirmPassword"/>
 
-    <Button
-        android:id="@+id/loginAndRegister"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/login_Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="64dp"
-        android:text="Register and Sign In"
+        android:text="@string/register_and_sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGoToLogin"
         app:layout_constraintVertical_bias="0.2" />
 
 

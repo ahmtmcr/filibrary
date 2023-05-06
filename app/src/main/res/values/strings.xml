@@ -9,7 +9,6 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_film">FilmActivity</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
@@ -30,4 +29,40 @@
     <string name="already_have_an_account_click_here_to_sign_in"><u>Already have an account? Click here to sign in.</u></string>
     <string name="username">Username</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="dont_have_an_account_click_here_to_register"><u>Dont have an account? Click here to register.</u></string>
+    <string name="register_and_sign_in">Register and Sign In</string>
+    <string name="sign_in">Sign In</string>
+    <string name="macar_test_com">macar@test.com</string>
+    <string name="_passwordTest">12345678</string>
+    <string name="today">Today</string>
+    <string name="weekly">Weekly</string>
+    <string name="films">Films</string>
+    <string name="filmname">FilmName</string>
+    <string name="runtime">Runtime:</string>
+    <string name="category">Category:</string>
+    <string name="releasedate">ReleaseDate</string>
+    <string name="overview">Overview:</string>
+    <string name="overview_">Overview:</string>
+    <string name="credits">Credits:</string>
+    <string name="settings">Settings</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="togglebutton">ToggleButton</string>
+    <string name="filmname_">FilmName</string>
+    <string name="releasedate_">ReleaseDate</string>
+    <string name="category_">Category:</string>
+    <string name="overview__">Overview:</string>
+    <string name="overviews">Overview:</string>
+    <string name="name_as_character">Name: as Character</string>
+    <string name="name_as_character_">Name: as Character</string>
+    <string name="button_1">Button1</string>
+    <string name="filmd_">filmId</string>
+    <string name="FilmName_">FilmName</string>
+    <string name="filmreleasedate_">FilmReleaseDate</string>
+    <string name="user_score">User Score</string>
+    <string name="filmid_">filmId</string>
+    <string name="filmname_s">FilmName</string>
+    <string name="filmreleasedate_s">FilmReleaseDate</string>
+    <string name="filmruntime_s">FilmRuntime</string>
+    <string name="button1_">Button1</string>
 </resources>

@@ -62,13 +62,11 @@ public class LibraryFragment extends Fragment {
         rInflater = inflater;
         view = rInflater.inflate(R.layout.fragment_library,  rContainer, false);
 
-
         mAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseFirestore.getInstance();
         currentUser = mAuth.getCurrentUser();
 
         initComponents();
-
 
         return view;
     }
@@ -76,7 +74,6 @@ public class LibraryFragment extends Fragment {
     private void initComponents(){
         libraryLinear = (LinearLayout) view.findViewById(R.id.libraryLinear);
     }
-
     @Override
     public void onResume() {
         super.onResume();

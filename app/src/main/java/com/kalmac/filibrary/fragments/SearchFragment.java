@@ -1,6 +1,7 @@
 package com.kalmac.filibrary.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -44,26 +45,11 @@ public class SearchFragment extends Fragment {
         rInflater = inflater;
         view = rInflater.inflate(R.layout.fragment_search,  rContainer, false);
 
-        searchView = view.findViewById(R.id.searchView);
-        linearLayout = view.findViewById(R.id.searchFilmLinear);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-               searhFilm(s);
-               return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
-
-
+        initComponents();
+        registerEventHandlers();
 
         return view;
     }
-
     private void searhFilm(String s){
         RetrofitClient retrofitClient = new RetrofitClient();
         Call<MovieResults> call = retrofitClient.apiInterface.getMovies(retrofitClient.API_KEY, retrofitClient.LANGUAGE, s, retrofitClient.PAGE, retrofitClient.IS_ADULT);
@@ -93,10 +79,9 @@ public class SearchFragment extends Fragment {
                     imB.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Integer id = Integer.parseInt(filmID.getText().toString());
-                            Intent i = new Intent(getActivity(), FilmActivity.class);
-                            i.putExtra("filmdID", id);
-                            startActivity(i);
+                            Uri uri = Uri.parse("http://www.filab-filmapp.com/" + filmID.getText().toString());
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
                         }
                     });
 
@@ -112,5 +97,30 @@ public class SearchFragment extends Fragment {
 
             }
         });
+    }
+    private void initComponents(){
+        searchView = view.findViewById(R.id.searchView);
+        linearLayout = view.findViewById(R.id.searchFilmLinear);
+    }
+    private void registerEventHandlers(){
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                //searhFilm(s);
+                return false;
+            }
+
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                clearList();
+                searhFilm(s);
+                return false;
+            }
+        });
+    }
+
+    private void clearList(){
+        linearLayout.removeAllViews();
     }
 }

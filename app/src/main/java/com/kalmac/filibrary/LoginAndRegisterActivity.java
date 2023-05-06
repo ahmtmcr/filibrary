@@ -38,46 +38,73 @@ public class LoginAndRegisterActivity extends AppCompatActivity {
 
 
     private FirebaseAuth mAuth;
-    FirebaseUser currentUser;
-    FirebaseFirestore firebaseDatabase;
+    private FirebaseUser currentUser;
+    private FirebaseFirestore firebaseDatabase;
 
 
     EditText email;
     EditText password;
     EditText username;
     EditText confirmPassword;
-
     TextView goToLogin;
     Button loginAndRegisterButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onStart(){
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+           switchToMain();
+        }
+    }
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login_register);
+
+        initComponents();
+        registerEventHandlers();
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         firebaseDatabase = FirebaseFirestore.getInstance();
 
-        if(currentUser != null){
-            setContentView(R.layout.activity_main);
-        }
-        setContentView(R.layout.activity_login_register);
+    }
+
+    private void swtichToLogin(){
+        Intent switchToLogin = new Intent(this, LoginActivity.class);
+        startActivity(switchToLogin);
+    }
+    private void switchToMain(){
+        Intent loginToMain = new Intent(this, MainActivity.class);
+        startActivity(loginToMain);
+    }
+    private void createUserDocument(){
+        firebaseDatabase = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+        CollectionReference users = firebaseDatabase.collection("users");
+
+        Map<String, Object> userDetails = new HashMap<>();
+        userDetails.put("username", username.getText().toString());
+        userDetails.put("liked_film_ids", Arrays.asList());
+        users.document(currentUser.getUid()).set(userDetails);
 
 
-
+    }
+    private void initComponents(){
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         username = findViewById(R.id.username);
-        loginAndRegisterButton = findViewById(R.id.loginAndRegister);
+        loginAndRegisterButton = findViewById(R.id.login_Register);
         goToLogin = findViewById(R.id.buttonGoToLogin);
         confirmPassword = findViewById(R.id.confirmPassword);
-
-
-
-
-
-
+    }
+    private void registerEventHandlers(){
         loginAndRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,37 +161,12 @@ public class LoginAndRegisterActivity extends AppCompatActivity {
                     Toast.makeText(LoginAndRegisterActivity.this, "Enter required fields.", Toast.LENGTH_SHORT).show();
                 }
             }
-                });
-
+        });
         goToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 swtichToLogin();
             }
         });
-    }
-
-    private void swtichToLogin(){
-        Intent switchToLogin = new Intent(this, LoginActivity.class);
-        startActivity(switchToLogin);
-    }
-    private void switchToMain(){
-        Intent loginToMain = new Intent(this, MainActivity.class);
-        startActivity(loginToMain);
-    }
-
-    private void createUserDocument(){
-        firebaseDatabase = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-
-        CollectionReference users = firebaseDatabase.collection("users");
-
-        Map<String, Object> userDetails = new HashMap<>();
-        userDetails.put("username", username.getText().toString());
-        userDetails.put("liked_film_ids", Arrays.asList());
-        users.document(currentUser.getUid()).set(userDetails);
-
-
     }
 }

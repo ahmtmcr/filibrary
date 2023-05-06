@@ -15,7 +15,7 @@
         android:id="@+id/filmId"
         android:layout_width="1dp"
         android:layout_height="1dp"
-        android:text="filmId"
+        android:text="@string/filmid_"
         android:layout_marginStart="1dp"
         android:textAlignment="center" />
 
@@ -23,7 +23,7 @@
         android:id="@+id/filmT"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="FilmName"
+        android:text="@string/filmname_s"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/filmPoster"
         android:textAlignment="center" />
@@ -35,7 +35,7 @@
         android:layout_toEndOf="@+id/filmPoster"
         android:layout_marginTop="55dp"
         android:layout_alignTop="@+id/filmT"
-        android:text="FilmReleaseDate"
+        android:text="@string/filmreleasedate_s"
         android:textAlignment="center" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:layout_marginTop="40dp"
         android:layout_toEndOf="@+id/filmPoster"
         android:layout_alignTop="@+id/filmReleaseDate"
-        android:text="FilmRuntime"
+        android:text="@string/filmruntime_s"
         android:textAlignment="center" />
 
     <RatingBar

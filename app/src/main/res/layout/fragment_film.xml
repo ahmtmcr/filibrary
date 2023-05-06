@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="FilmName"
+            android:text="@string/filmname_"
             android:textAlignment="center"
             android:textSize="30sp" />
 
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="420dp"
-            android:text="ReleaseDate"
+            android:text="@string/releasedate_"
             android:textAlignment="center"
             android:textSize="20sp" />
 
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="450dp"
-            android:text="Category: "
+            android:text="@string/category_"
             android:textAlignment="center"
             android:textSize="20sp" />
 
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="520dp"
-            android:text="Overview: "
+            android:text="@string/overview__"
 
             android:textSize="30dp" />
 
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="560dp"
-            android:text="Overview: "
+            android:text="@string/overviews"
             android:textSize="20sp" />
 
         <ImageView
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
             android:layout_marginTop="610dp"
-            android:text="Name: as Character"
+            android:text="@string/name_as_character"
             android:textSize="15sp" />
     </FrameLayout>
 

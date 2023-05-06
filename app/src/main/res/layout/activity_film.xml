@@ -17,17 +17,17 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            <ToggleButton
-                android:id="@+id/favoriteButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:textOn=""
-                android:textOff=""
-                android:background="@drawable/hearth_icon"
-                android:layout_marginTop="0dp"
-                android:layout_centerInParent="true"
-                android:layout_alignParentTop="true"
-                />
+
+                <ToggleButton
+                    android:id="@+id/favoriteButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/hearth_icon"
+                    android:textOff=""
+                    android:textOn="" />
 
                 <ImageButton
                     android:id="@+id/backToMainActivityButton"
@@ -58,7 +58,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:text="FilmName"
+                android:text="@string/filmname"
+                android:textColor="@android:color/holo_purple"
                 android:textAlignment="center"
                 android:textSize="30sp" />
 
@@ -67,7 +68,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="450dp"
-                android:text="ReleaseDate"
+                android:text="@string/releasedate"
+                android:textColor="@android:color/holo_purple"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -76,7 +78,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="480dp"
-                android:text="Category: "
+                android:text="@string/category"
+                android:textColor="@android:color/holo_purple"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -97,7 +100,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="550dp"
-                android:text="Runtime: "
+                android:text="@string/runtime"
+                android:textColor="@android:color/holo_purple"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -106,7 +110,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="590dp"
 
-                android:text="Overview: "
+                android:text="@string/overview"
+                android:textColor="@android:color/holo_purple"
 
                 android:textSize="30sp" />
 
@@ -116,8 +121,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="630dp"
-                android:text="Overview: "
-                android:textSize="20sp" />
+                android:text="@string/overview_"
+                android:textColor="@android:color/holo_blue_light"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/filmCreditTitle"
@@ -125,7 +131,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_below="@+id/filmOverview"
-                android:text="Credits: "
+                android:text="@string/credits"
+                android:textColor="@android:color/holo_purple"
                 android:textSize="30sp" />
             <LinearLayout
                 android:id="@+id/creditLayout"
