@@ -96,7 +96,7 @@ public class LibraryFragment extends Fragment {
                     DocumentSnapshot ds = task.getResult();;
                     filmLongList = (List<Long>) ds.get("liked_film_ids");
 
-                    ;
+
                     for (int i=0; i<filmLongList.size(); i++){
                         filmIdsStringList.add(filmLongList.get(i).toString());
                     }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -42,12 +43,9 @@ public class LoginAndRegisterActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseDatabase;
 
 
-    EditText email;
-    EditText password;
-    EditText username;
-    EditText confirmPassword;
-    TextView goToLogin;
-    Button loginAndRegisterButton;
+    private TextInputLayout email, password, username, confirmPassword;
+    private TextView goToLogin;
+    private Button loginAndRegisterButton;
 
     @Override
     public void onStart(){
@@ -90,83 +88,135 @@ public class LoginAndRegisterActivity extends AppCompatActivity {
         CollectionReference users = firebaseDatabase.collection("users");
 
         Map<String, Object> userDetails = new HashMap<>();
-        userDetails.put("username", username.getText().toString());
+        userDetails.put("username", username.getEditText().getText().toString());
         userDetails.put("liked_film_ids", Arrays.asList());
         users.document(currentUser.getUid()).set(userDetails);
 
 
     }
     private void initComponents(){
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        username = findViewById(R.id.username);
+        email = findViewById(R.id.emailLayoutInput);
+        password = findViewById(R.id.passwordLayoutInput);
+        username = findViewById(R.id.usernameLayoutInput);
         loginAndRegisterButton = findViewById(R.id.login_Register);
         goToLogin = findViewById(R.id.buttonGoToLogin);
-        confirmPassword = findViewById(R.id.confirmPassword);
+        confirmPassword = findViewById(R.id.confirmPasswordLayoutInput);
     }
     private void registerEventHandlers(){
         loginAndRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                boolean isEmailValid = validateEmail(email);
+                boolean isUsernameValid = validateUsername(username);
+                boolean isPasswordsValid = validatePassword(password, confirmPassword);
 
 
-                if (email.getText() != null && password.getText() != null && username.getText() != null && !email.getText().toString().equals("") && !password.getText().toString().equals("") && !username.getText().toString().equals("") && !confirmPassword.getText().toString().equals("") && confirmPassword.getText() != null){
+                setValidatePassword(password, confirmPassword);
 
-                    if (confirmPassword.getText().toString().equals(password.getText().toString())){
-                        mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()){
-                                            Log.d("fire", "createUserWithEmail:success");
-                                            FirebaseUser user = mAuth.getCurrentUser();
-                                            UserProfileChangeRequest profileNameUpdate = new UserProfileChangeRequest.Builder()
-                                                    .setDisplayName(username.getText().toString())
-                                                    .build();
-                                            user.updateProfile(profileNameUpdate)
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            if (task.isSuccessful()) {
-                                                                Log.d("fire", "User profile updated.");
-                                                            }
+                if (!isEmailValid)
+                    email.setError("Email is incorrect");
+                else
+                    email.setError(null);
+
+                if (!isUsernameValid)
+                    username.setError("Username is incorrect");
+                else
+                    username.setError(null);
+
+
+                if (isEmailValid && isUsernameValid && isPasswordsValid){
+                    mAuth.createUserWithEmailAndPassword(email.getEditText().getText().toString(), password.getEditText().getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("fire", "user created succes");
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        UserProfileChangeRequest profileNameUpdate = new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(username.getEditText().getText().toString())
+                                                .build();
+                                        user.updateProfile(profileNameUpdate)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Log.d("fire", "profile updated");
                                                         }
-                                                    });
-                                            createUserDocument();
-                                            switchToMain();
+                                                    }
+                                                });
+                                        createUserDocument();
+                                        switchToMain();
+                                    } else if (task.getException() instanceof FirebaseAuthUserCollisionException)
+                                    {
+                                        Toast.makeText(LoginAndRegisterActivity.this, "Email is aldready registered", Toast.LENGTH_SHORT).show();
 
+                                    }else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                        Toast.makeText(LoginAndRegisterActivity.this, "Email format is incorrect", Toast.LENGTH_SHORT).show();
 
-                                        } else if (task.getException() instanceof FirebaseAuthUserCollisionException)
-                                        {
-                                            Toast.makeText(LoginAndRegisterActivity.this, "Email is aldready registered", Toast.LENGTH_SHORT).show();
-
-                                        }else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                            Toast.makeText(LoginAndRegisterActivity.this, "Email format is incorrect", Toast.LENGTH_SHORT).show();
-
-                                        }else if (task.getException() instanceof FirebaseAuthWeakPasswordException) {
-                                            Toast.makeText(LoginAndRegisterActivity.this, "Password is weak", Toast.LENGTH_SHORT).show();
-                                        }else
-                                        {
-                                            Toast.makeText(LoginAndRegisterActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                                        }
-
+                                    }else if (task.getException() instanceof FirebaseAuthWeakPasswordException) {
+                                        Toast.makeText(LoginAndRegisterActivity.this, "Password is weak", Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(LoginAndRegisterActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                                     }
-                                });
-                    } else {
-                        Toast.makeText(LoginAndRegisterActivity.this, "Password are not a match.", Toast.LENGTH_SHORT).show();
-                    }
-
-                } else {
-                    Toast.makeText(LoginAndRegisterActivity.this, "Enter required fields.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
+
+
             }
         });
+
         goToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 swtichToLogin();
             }
         });
+    }
+
+    private boolean validateEmail(TextInputLayout wrapper) {
+        String input = wrapper.getEditText().getText().toString();
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(input).matches();
+    }
+    private boolean validateUsername(TextInputLayout wrapper){
+        String input = wrapper.getEditText().getText().toString();
+        if (input.equals("") || input == null){
+            return false;
+        }
+
+        if (input.length() > 10 || input.length() <= 0) {
+            return false;
+        }
+        return true;
+    }
+    private void setValidatePassword(TextInputLayout password, TextInputLayout confirmPassword){
+        String passwordText = password.getEditText().getText().toString();
+        String confirmPasswordText = confirmPassword.getEditText().getText().toString();
+
+        if (passwordText == null || passwordText.equals("")){
+            password.setError("Please enter a password");
+        }
+        else if (passwordText.length() < 8){
+            password.setError("Password must have at least 8 characters");
+        }else {
+            password.setError(null);
+        }
+        if (!confirmPasswordText.equals(passwordText)){
+            confirmPassword.setError("Passwords do not match");
+        }
+        else {
+            confirmPassword.setError(null);
+        }
+    }
+    private boolean validatePassword(TextInputLayout password, TextInputLayout confirmPassword) {
+        String passwordText = password.getEditText().getText().toString();
+        String confirmPasswordText = confirmPassword.getEditText().getText().toString();
+        if (passwordText != null && !passwordText.equals("") &&
+                passwordText.length() >= 8 && confirmPasswordText.equals(passwordText)){
+            return true;
+        }
+        return false;
     }
 }

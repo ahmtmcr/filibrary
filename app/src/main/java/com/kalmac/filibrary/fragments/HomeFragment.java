@@ -88,11 +88,14 @@ public class HomeFragment extends Fragment {
                     TextView filmReleaseDate = filmItem.findViewById(R.id.filmReleaseDate);
                     RatingBar rb = (RatingBar) filmItem.findViewById(R.id.ratingBar);
                     TextView userScore = (TextView) filmItem.findViewById(R.id.userScore);
+
                     PicassoLoader.LoadImageToImageButton(listOfMovies.get(i).getPosterPath(),imB, 300, 350);
+
                     filmT.setText(listOfMovies.get(i).getTitle());
                     filmReleaseDate.setText(DateFormatter.FormatDate(listOfMovies.get(i).getReleaseDate()));
                     rb.setRating(listOfMovies.get(i).getVoteAverage().floatValue() / 2);
                     userScore.setText("%" +  (float)(listOfMovies.get(i).getVoteAverage() * 10));
+
                     TextView filmID = (TextView) filmItem.findViewById(R.id.filmId);
                     filmID.setText(listOfMovies.get(i).getId().toString());
 

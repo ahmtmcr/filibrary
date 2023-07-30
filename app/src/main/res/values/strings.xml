@@ -65,4 +65,5 @@
     <string name="filmreleasedate_s">FilmReleaseDate</string>
     <string name="filmruntime_s">FilmRuntime</string>
     <string name="button1_">Button1</string>
+    <string name="rememberMe">Remember Me</string>
 </resources>

@@ -10,11 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
@@ -22,8 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseUser currentUser;
 
-    EditText email;
-    EditText password;
+    TextInputLayout email, password;
     Button signIn;
     TextView goToRegister;
 
@@ -60,8 +62,11 @@ public class LoginActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (email.getText() != null && !email.getText().toString().equals("") && password.getText() != null && !password.getText().toString().equals("")){
-                    mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                boolean isEmailValid = validateEmail(email);
+                boolean isPasswordValid = validatePassword(password);
+
+                if (isEmailValid && isPasswordValid){
+                    mAuth.signInWithEmailAndPassword(email.getEditText().getText().toString(), password.getEditText().getText().toString())
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -69,7 +74,30 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.d("fire", "signed in suecces");
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         switchToMain();
+                                    } else {
+                                        String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+
+                                        switch (errorCode) {
+
+                                            case "ERROR_INVALID_EMAIL":
+                                                Toast.makeText(getApplicationContext(), "The email address is badly formatted.", Toast.LENGTH_LONG).show();
+                                                email.setError("The email address is badly formatted.");
+                                                email.requestFocus();
+                                                break;
+
+                                            case "ERROR_WRONG_PASSWORD":
+                                                Toast.makeText(getApplicationContext(), "The password is invalid or the user does not have a password.", Toast.LENGTH_LONG).show();
+                                                password.setError("Password is incorrect ");
+                                                password.requestFocus();
+                                                password.getEditText().setText("");
+                                                break;
+
+                                            case "ERROR_USER_NOT_FOUND":
+                                                Toast.makeText(getApplicationContext(), "User not found.", Toast.LENGTH_LONG).show();
+                                                break;
+                                        }
                                     }
+
                                 }
                             });
                 }
@@ -85,5 +113,18 @@ public class LoginActivity extends AppCompatActivity {
     private void switchToRegister(){
         Intent loginToMain = new Intent(this, LoginAndRegisterActivity.class);
         startActivity(loginToMain);
+    }
+
+    private boolean validateEmail(TextInputLayout wrapper) {
+        String input = wrapper.getEditText().getText().toString();
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(input).matches();
+    }
+
+    private boolean validatePassword(TextInputLayout wrapper) {
+         String input = wrapper.getEditText().getText().toString();
+         if (input.equals("") || input == null){
+             return false;
+         }
+         return true;
     }
 }

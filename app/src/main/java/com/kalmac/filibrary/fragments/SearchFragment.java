@@ -68,6 +68,7 @@ public class SearchFragment extends Fragment {
                     TextView filmReleaseDate = filmItem.findViewById(R.id.filmReleaseDate);
                     RatingBar rb = (RatingBar) filmItem.findViewById(R.id.ratingBar);
                     TextView userScore = (TextView) filmItem.findViewById(R.id.userScore);
+
                     PicassoLoader.LoadImageToImageButton(listOfMovies.get(i).getPosterPath(), imB, 300, 350);
                     filmT.setText(listOfMovies.get(i).getTitle());
                     filmReleaseDate.setText(DateFormatter.FormatDate(listOfMovies.get(i).getReleaseDate()));
